@@ -8,6 +8,9 @@ jobs:
         uses: actions/checkout@v3
       - name: Set up Java 17
         uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'adoptopenjdk'
       - name: Set execute permissions for gradlew
         shell: bash
         run: chmod +x ./gradlew
