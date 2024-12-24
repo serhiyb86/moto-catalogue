@@ -6,6 +6,9 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
+      - name: Set execute permissions for gradlew
+        shell: bash
+        run: chmod +x ./gradlew
       - name: Run tests
         shell: bash
         run: |
