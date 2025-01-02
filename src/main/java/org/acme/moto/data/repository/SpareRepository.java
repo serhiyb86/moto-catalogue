@@ -6,5 +6,5 @@ import org.acme.moto.data.Spare;
 
 
 @ApplicationScoped
-public interface SpareRepository extends PanacheRepository<Spare> {
+public class SpareRepository implements PanacheRepository<Spare> {
 }

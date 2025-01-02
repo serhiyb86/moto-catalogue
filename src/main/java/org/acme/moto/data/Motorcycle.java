@@ -1,9 +1,6 @@
 package org.acme.moto.data;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -12,6 +9,7 @@ public class Motorcycle {
     @Id
     @GeneratedValue
     private int id;
+    @ManyToOne
     private Brand brand;
     private String model;
     private double engineVolume;

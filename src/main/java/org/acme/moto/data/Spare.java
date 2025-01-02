@@ -1,14 +1,13 @@
 package org.acme.moto.data;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Spare {
     @Id
     @GeneratedValue
     private long id;
+    @ManyToOne
     private SpareType spareType;
     private String spareName;
     private String description;
