@@ -12,13 +12,14 @@ import org.acme.moto.data.repository.SpareRepository;
 import java.util.List;
 
 @Path("/spares")
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
 public class SpareController {
 
     @Inject
     private SpareRepository spareRepository;
+
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public List<Spare> list() {
         return spareRepository.listAll();
     }
