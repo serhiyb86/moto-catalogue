@@ -53,4 +53,6 @@ jobs:
         with:
           image-tag: ${{ env.TAG }}
           registry: docker.io
+          docker-username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          docker-password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
