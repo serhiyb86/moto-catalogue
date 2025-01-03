@@ -31,9 +31,9 @@ jobs:
   docker:
     name: Build and push docker image
     runs-on: ${{ needs.start-analysis-runner.outputs.label }}
-    needs:
-      - start-analysis-runner
-      - sonar
+#    needs:
+#      - start-analysis-runner
+#      - sonar
     steps:
       - uses: actions/checkout@v4
         name: 'Checkout Code'
