@@ -39,10 +39,10 @@ runs:
         IMAGE_TAG: ${{ inputs.image-tag }}
         QUARKUS_DOCKER_BUILDX_PLATFORM: linux/amd64,linux/arm64
       run: |
-        ./gradlew build -PdatabaseVendor=oracle -Dquarkus.container-image.build=true \
+        ./gradlew build -Dquarkus.container-image.build=true \
           -Dquarkus.container-image.push=true \
-          -Dquarkus.container-image.registry=$REGISTRY \
-          -Dquarkus.container-image.group=archive \
-          -Dquarkus.container-image.name=archive \
-          -Dquarkus.container-image.tag=$IMAGE_TAG \
+          -Dquarkus.container-image.registry=docker.io \
+          -Dquarkus.container-image.group=serhiyb86 \
+          -Dquarkus.container-image.name=catalogue \
+          -Dquarkus.container-image.tag=first \
           -x test -x quarkusIntTest -x testNative
