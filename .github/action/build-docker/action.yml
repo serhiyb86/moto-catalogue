@@ -41,8 +41,8 @@ runs:
       run: |
         ./gradlew build -Dquarkus.container-image.build=true \
           -Dquarkus.container-image.push=true \
-          -Dquarkus.container-image.registry=docker.io \
+          -Dquarkus.container-image.registry=$REGISTRY \
           -Dquarkus.container-image.group=serhiyb86 \
           -Dquarkus.container-image.name=catalogue \
-          -Dquarkus.container-image.tag=first \
+          -Dquarkus.container-image.tag=$IMAGE_TAG \
           -x test -x quarkusIntTest -x testNative

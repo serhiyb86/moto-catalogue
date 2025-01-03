@@ -14,4 +14,8 @@ public class SpareType {
     public SpareType(String spareType) {
         this.spareType = spareType;
     }
+
+    public SpareType() {
+
+    }
 }
