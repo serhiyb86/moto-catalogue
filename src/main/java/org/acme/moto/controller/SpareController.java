@@ -14,8 +14,12 @@ import java.util.List;
 @Path("/spares")
 public class SpareController {
 
+    private final SpareRepository spareRepository;
+
     @Inject
-    private SpareRepository spareRepository;
+    public SpareController(SpareRepository spareRepository) {
+        this.spareRepository = spareRepository;
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

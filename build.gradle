@@ -1,6 +1,13 @@
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+
+import static com.avast.gradle.dockercompose.RemoveImages.Local
+import static java.time.Duration.ofMinutes
+import static java.time.Duration.ofMinutes
+
 plugins {
     id 'java'
     id 'io.quarkus'
+    id 'com.avast.gradle.docker-compose' version '0.17.7'
 }
 
 repositories {
@@ -22,6 +29,9 @@ dependencies {
 
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
+    testImplementation 'org.assertj:assertj-core:3.24.2' // Use the latest version
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.7.0' // Use the latest version
+
 }
 
 group 'org.acme'
@@ -42,4 +52,44 @@ compileJava {
 
 compileTestJava {
     options.encoding = 'UTF-8'
+}
+
+dockerCompose.isRequiredBy(quarkusDev)
+
+/**
+ * dependencies
+ */
+dockerCompose {
+    removeImages = Local
+    environment.put 'COMPOSE_HTTP_TIMEOUT', '300'
+    forceRecreate = true
+    projectName = "catalogue"
+    useComposeFiles = this.getComposeFiles()
+    dockerComposeWorkingDirectory = rootDir
+    // When providing multiple compose files the first given compose file is used as the base path for all files.
+    // This can cause very strange paths in the other compose files. Using --project-directory overrides that behavior.
+    // Instead, we are using our project root dir as base path.
+    // Check https://docs.docker.com/compose/reference/#use--f-to-specify-name-and-path-of-one-or-more-compose-files
+    composeAdditionalArgs = ["--project-directory", rootDir.getAbsolutePath()]
+    waitForTcpPortsTimeout = ofMinutes(5)
+    waitForHealthyStateTimeout = ofMinutes(5)
+    stopContainers = false
+
+    // Works around an issue where the docker command is not found.
+    // Falls back to the default, which may work on some platforms.
+    // https://github.com/avast/gradle-docker-compose-plugin/issues/435
+    // https://github.com/gradle/gradle/issues/10483
+    if (DefaultNativePlatform.getCurrentOperatingSystem().isMacOsX()) {
+        def dockerPaths = ["/usr/bin/docker", "/usr/local/bin/docker"]
+        def dockerPath = dockerPaths.find { new File(it).exists() }
+        if (dockerPath) {
+            dockerExecutable.set(dockerPath)
+        }
+    }
+}
+
+private List<String> getComposeFiles() {
+
+    ["dependencies/jaeger/docker-compose.yml",
+     "dependencies/postgresql/docker-compose.yml"]
 }

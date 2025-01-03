@@ -10,4 +10,8 @@ public class SpareType {
     @GeneratedValue
     private int id;
     private String spareType;
+
+    public SpareType(String spareType) {
+        this.spareType = spareType;
+    }
 }

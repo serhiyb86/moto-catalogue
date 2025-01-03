@@ -1,0 +1,10 @@
+app:
+  migrate-flyway: true
+quarkus:
+  datasource:
+    db-kind: "postgresql"
+    jdbc:
+      url: "jdbc:postgresql://localhost:5432/archive?currentSchema=archive"
+    username: "postgres"
+    password: "Passw0rd!"
+

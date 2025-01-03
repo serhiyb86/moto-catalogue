@@ -1,0 +1,12 @@
+services:
+  db-catalogue:
+    image: postgres:16.3-alpine3.20
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: catalogue
+      POSTGRES_DB: db-catalogue
+      POSTGRES_PASSWORD: Passw0rd!
+#    volumes:
+#      - ./dependencies/postgresql/init:/docker-entrypoint-initdb.d

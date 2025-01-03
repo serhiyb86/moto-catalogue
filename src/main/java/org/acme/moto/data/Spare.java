@@ -23,6 +23,15 @@ public class Spare {
     public Spare() {
     }
 
+    public Spare(SpareType spareType, String spareName, String description, String techDescription, double price, Availability availability) {
+        this.spareType = spareType;
+        this.spareName = spareName;
+        this.description = description;
+        this.techDescription = techDescription;
+        this.price = price;
+        this.availability = availability;
+    }
+
     public long getId() {
         return id;
     }

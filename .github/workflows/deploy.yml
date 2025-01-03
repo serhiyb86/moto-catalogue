@@ -1,7 +1,14 @@
-name: Deploy Project
-on: [push, workflow_dispatch]
+name: Build
+on:
+  workflow_dispatch: {}
+  pull_request:
+    paths-ignore: [ 'doc/**' ]
+  push:
+    branches: [ 'main', 'master', 'release/**', 'bugfix/**', 'documentation/**' ]
+    paths-ignore: [ 'doc/**' ]
 jobs:
   test:
+    name: "Backend Unit Tests"
     runs-on: ubuntu-latest
     steps:
       - name: Get code
@@ -20,3 +27,28 @@ jobs:
           echo "Hello world" 
           ./gradlew test 
           ls
+  # Build and push docker image
+  docker:
+    name: Build and push docker image
+    runs-on: ${{ needs.start-analysis-runner.outputs.label }}
+    needs:
+      - start-analysis-runner
+      - sonar
+    steps:
+      - uses: actions/checkout@v4
+        name: 'Checkout Code'
+        with:
+          fetch-depth: 0
+      - name: 'Define image tag'
+        shell: bash
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          TAG=$(.github/tools/get-image-tag.sh "$HEAD_REF")
+          echo "TAG=$TAG" >> "$GITHUB_ENV"
+          echo "TAG=$TAG"
+#      - uses: ./.github/action/build-docker
+#        name: 'Build and push docker image'
+#        with:
+#          image-tag: ${{ env.TAG }}
+
