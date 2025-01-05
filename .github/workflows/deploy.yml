@@ -70,7 +70,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             echo "Pulling latest image from Docker Hub..."
-    # todo tag dynamically
+
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/catalogue:master 
 
             echo "Stopping existing containers..."
