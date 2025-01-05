@@ -8,5 +8,5 @@ services:
       POSTGRES_USER: catalogue
       POSTGRES_DB: db-catalogue
       POSTGRES_PASSWORD: Passw0rd!
-#    volumes:
-#      - ./dependencies/postgresql/init:/docker-entrypoint-initdb.d
+    volumes:
+      - ./dependencies/postgresql/init:/docker-entrypoint-initdb.d

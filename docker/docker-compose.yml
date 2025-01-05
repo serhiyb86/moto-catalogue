@@ -9,25 +9,36 @@ services:
       - "8080:8080"
       - "5005:5005"
     environment:
-      - QUARKUS_PROFILE=prod
-      - QUARKUS_HTTP_PORT=8080
+      - QUARKUS_DATASOURCE_URL=jdbc:postgresql://db:5432/db-catalogue
+      - QUARKUS_DATASOURCE_USERNAME=catalogue
+      - QUARKUS_DATASOURCE_PASSWORD=Passw0rd!
     restart: always
     depends_on:
-      db-catalogue:
+      db:
         condition: service_healthy
-  db-catalogue:
+    networks:
+      - app-network
+
+  db:
     image: postgres:17
     restart: always
+    expose:
+      - 5432
     ports:
       - "5432:5432"
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready", "-d", "archive" ]
+      test: ["CMD-SHELL", "pg_isready -U catalogue -d db-catalogue"]
       interval: 30s
       timeout: 60s
       retries: 5
       start_period: 80s
     environment:
-      POSTGRES_USER: catalogue
-      POSTGRES_DB: db-catalogue
-      POSTGRES_PASSWORD: Passw0rd!
+      - POSTGRES_USER=catalogue
+      - POSTGRES_DB=db-catalogue
+      - POSTGRES_PASSWORD=Passw0rd!
+    networks:
+      - app-network
 
+networks:
+  app-network:
+    driver: bridge

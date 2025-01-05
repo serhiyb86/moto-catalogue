@@ -1,1 +1,1 @@
-create schema moto_postgres;
+create schema db-catalogue;
